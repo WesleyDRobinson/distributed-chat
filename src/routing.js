@@ -1,6 +1,6 @@
 import LoadingConnector from './components/loading-connector'
 import StartRoom from './components/welcome/start-room'
-import IpfsRoom from './components/ipfs-room'
+import IpfsRoom from './components/ipfs-room/ipfs-room'
 
 const { bind } = HyperHTMLElement
 const oneSecondTimeout = (cb) => window.setTimeout(cb, 1000)
