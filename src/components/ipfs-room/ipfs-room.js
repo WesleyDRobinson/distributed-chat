@@ -1,3 +1,4 @@
+import TextMessage from './text-message'
 import ToastAnnounce from '../toast-announce'
 import { peerJoined, peerLeft, message } from './helpers'
 
@@ -18,25 +19,40 @@ class IpfsRoom extends HyperHTMLElement {
   created() {
     this.className = 'db h-100 flex flex-column justify-between animated'
 
-    // generate a new Room
+    // generate a new Room, i.e., subscribe to a topic
     this.name = this.name || 'default-room-name'
     let room = Room(window.ipfsNode, this.name)
+    // attach the room
     this.room = room
 
     // add functionality to the room
     // announces when a new peer joins the room
-    room.on('peer joined', peerJoined)
+    room.on('peer joined', (peer) => {
+      this.setState({ peerCount: this.state.peerCount + 1 })
+      this.serveToast(`${peer.slice(41)} joined the room`)
+    })
 
     // announces when a peer leaves the room
-    room.on('peer left', peerLeft)
+    room.on('peer left', (peer) => {
+      this.setState({ peerCount: this.state.peerCount - 1 })
+      this.serveToast(`${peer.slice(41)} left the room`)
+    })
 
     // build the message and add to messages output
-    room.on('message', message)
+    room.on('message', (message) => {
+      let msgDiv = wire(message)`<text-message rawMessage=${JSON.stringify(message)}></text-message>`
+
+      let output = document.getElementById('output')
+      output.classList.add('bl', 'bw1', 'b--light-blue')
+      output.appendChild(msgDiv)
+      output.scrollTop = output.scrollHeight
+    })
 
     this.render()
   }
 
   disconnectedCallback() {
+    // unsubscribe from ipfs 'topic'
     this.room.leave()
   }
 
@@ -148,36 +164,3 @@ class IpfsRoom extends HyperHTMLElement {
 }
 
 IpfsRoom.define('ipfs-room')
-
-// todo -- split into module
-function copyTextToClipboard(text) {
-  // for today
-  if (!navigator.clipboard) {
-    fallbackCopyTextToClipboard(text)
-    return
-  }
-
-  // for the future!
-  navigator.clipboard.writeText(text)
-    .then(() => console.log('Async: Copying to clipboard was successful!'))
-    .catch(err => console.error('Async: Could not copy text: ', err))
-}
-
-function fallbackCopyTextToClipboard(text) {
-  const textArea = document.createElement("textarea")
-  textArea.classList.add('clip')
-  textArea.value = text
-  document.body.appendChild(textArea)
-  textArea.focus()
-  textArea.select()
-
-  try {
-    const successful = document.execCommand('copy')
-    const msg = successful ? 'successful' : 'unsuccessful'
-    console.log('Fallback: Copying text command was ' + msg)
-  } catch (err) {
-    console.error('Fallback: Oops, unable to copy', err)
-  }
-
-  document.body.removeChild(textArea)
-}
