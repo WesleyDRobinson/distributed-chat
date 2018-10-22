@@ -1,5 +1,3 @@
-import ToastAnnounce from './toast-announce'
-
 const Room = require('ipfs-pubsub-room')
 const toBuffer = require('blob-to-buffer')
 

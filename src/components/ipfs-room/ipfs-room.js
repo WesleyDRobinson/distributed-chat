@@ -1,5 +1,6 @@
 import TextMessage from './text-message'
 import ToastAnnounce from '../toast-announce'
+import RoomHeading from './room-heading'
 import { peerJoined, peerLeft, message } from './helpers'
 
 const Room = require('ipfs-pubsub-room')
@@ -38,14 +39,14 @@ class IpfsRoom extends HyperHTMLElement {
       this.serveToast(`${peer.slice(41)} left the room`)
     })
 
-    // build the message and add to messages output
+    // build the message and add to a messageBackbone
     room.on('message', (message) => {
       let msgDiv = wire(message)`<text-message rawMessage=${JSON.stringify(message)}></text-message>`
 
-      let output = document.getElementById('output')
-      output.classList.add('bl', 'bw1', 'b--light-blue')
-      output.appendChild(msgDiv)
-      output.scrollTop = output.scrollHeight
+      this.messageBackbone = document.getElementById('messageBackbone')
+      this.messageBackbone.classList.add('bl', 'bw1', 'b--light-blue')
+      this.messageBackbone.appendChild(msgDiv)
+      this.messageBackbone.scrollTop = messageBackbone.scrollHeight
     })
 
     this.render()
@@ -58,22 +59,10 @@ class IpfsRoom extends HyperHTMLElement {
 
   render() {
     this.html`
-            <article id="room-heading" class="animated zoomInUp">
-                <div class="flex justify-around items-center w-100 cf pa2 gradientGO avenir">
-                    <div class="pointer grow ph2 pv2 br-pill ba b--purple bg-purple near-white tracked tc ttu f7" 
-                            data-call="showPeers" onclick="${this}">${this.state.peerCount} peers</div>
-                    <div class="flex justify-center items-center ph3">
-                        <h1 class="mv0 mr2 pa2 br1 lh-title f4 f3-ns fw2 near-white bg-black-60">${this.name}</h1> 
-                        <div class="pointer pv2 ph3 br-pill ba b--light-yellow bg-light-yellow gray tracked tc ttu f7"
-                            data-call=exit onclick=${this}>exit</div>        
-                    </div>
-                    <div class="pointer grow  ph2 pv2 br-pill ba b--blue bg-blue near-white tracked tc ttu f7" 
-                            data-call="showId" onclick="${this}">my id</div>
-                </div>   
-            </article>
+            <room-heading peerCount=${this.state.peerCount} />
             
             <article id="messaging" class="flex flex-column justify-end pa3 overflow-y-hidden animated zoomInDown">
-                <div id="output" class="mw8 mb1 overflow-y-scroll"></div>
+                <div id="messageBackbone" class="mw8 mb1 overflow-y-scroll"></div>
                 
                 <form id="send-message" data-call="sendIt" onsubmit="${this}">
                         <div class="mw9 flex justify-around items-baseline ba b--gold bl-0 bt-0 br-0">
@@ -135,12 +124,6 @@ class IpfsRoom extends HyperHTMLElement {
 
     this.room.broadcast(`${msg}`)
     form.reset()
-  }
-
-  showPeers() {
-    let peers = this.room.getPeers()
-    let msg = peers.length === 0 ? `you are alone in this room` : `peers in the room: ${peers.map(peer => peer.slice(41)).join(', ')}`
-    this.serveToast(msg)
   }
 
   showId() {

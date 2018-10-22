@@ -1,3 +1,19 @@
+// import ToastAnnounce from '../toast-announce'
+const { wire } = HyperHTMLElement
+const getOrMakeToastContainer = () => {
+  const ipfsRoom = document.querySelector('ipfs-room')
+  if (ipfsRoom['toast-container']) return ipfsRoom['toast-container']
+  const toastContainer = document.createElement('article')
+  toastContainer.id = 'toast-container'
+  toastContainer.className = `z-999 mt5 pa2 fixed top-2 right-1`
+  ipfsRoom.appendChild(toastContainer)
+  return toastContainer
+}
+const serveToast = (msg) => {
+  const toast = wire()`<toast-announce entry="fadeInDown" exit="fadeOutRight">${msg}</toast-announce>`
+  const toastContainer = getOrMakeToastContainer()
+  toastContainer.appendChild(toast)
+}
 module.exports = {
   utf8ArrayToStr: (array) => {
     // http://www.onicos.com/staff/iz/amuse/javascript/expert/utf.txt
@@ -70,5 +86,7 @@ module.exports = {
 
       document.body.removeChild(textArea)
     }
-  }
+  },
+  getOrMakeToastContainer,
+  serveToast
 }
