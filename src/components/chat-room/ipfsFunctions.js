@@ -1,5 +1,5 @@
 const getRoom = async () => {
-  const { room } = document.querySelector('ipfs-room')
+  const { room } = document.querySelector('chat-room')
   return room ? room : {}
 }
 const getRoomName = async () => {

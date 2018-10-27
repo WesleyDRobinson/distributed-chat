@@ -8,7 +8,7 @@ const toBuffer = require('blob-to-buffer')
 
 const { wire } = HyperHTMLElement
 
-class IpfsRoom extends HyperHTMLElement {
+class ChatRoom extends HyperHTMLElement {
   static get observedAttributes() {
     return ['name']
   }
@@ -146,4 +146,4 @@ class IpfsRoom extends HyperHTMLElement {
   }
 }
 
-IpfsRoom.define('ipfs-room')
+ChatRoom.define('chat-room')
