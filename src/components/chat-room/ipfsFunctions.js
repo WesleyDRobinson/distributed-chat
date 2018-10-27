@@ -1,28 +1,28 @@
-const getRoom = async function getRoom() {
+const getRoom = async () => {
   const { room } = document.querySelector('chat-room')
   return room ? room : {}
 }
-const getRoomName = async function getRoomName() {
+const getRoomName = async () => {
   const room = await getRoom()
   return room._topic
 }
-const getIpfsNode = async function getIpfsNode() {
+const getIpfsNode = async () => {
   const room = await getRoom()
-  return room._ipfs.id()
+  const ipfsNode = room._ipfs.id()
+  return ipfsNode
 }
-const getPeers = async function getPeers() {
-  const room = await getRoom()
-  return room._peers ? room._peers : {}
+const getPeers = async () => {
+  let room = await getRoom()
+  return room._peers
 }
-const getPeerCount = async function getPeerCount() {
+const getPeerCount = async () => {
   const peers = await getPeers()
   return peers.length
 }
-const leaveRoom = async function leaveRoom() {
+const leaveRoom = async () => {
   const room = await getRoom()
   return room.leave()
 }
-
 module.exports = {
   getRoom,
   getRoomName,
