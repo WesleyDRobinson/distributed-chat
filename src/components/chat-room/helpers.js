@@ -1,7 +1,7 @@
 // import ToastAnnounce from '../toast-announce'
 const { wire } = HyperHTMLElement
 const getOrMakeToastContainer = () => {
-  const ipfsRoom = document.querySelector('ipfs-room')
+  const ipfsRoom = document.querySelector('chat-room')
   if (ipfsRoom['toast-container']) return ipfsRoom['toast-container']
   const toastContainer = document.createElement('article')
   toastContainer.id = 'toast-container'

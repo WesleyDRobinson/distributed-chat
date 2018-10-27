@@ -1,7 +1,7 @@
 import createIpfsNode from './createNode'
 import LoadingConnector from './components/loading-connector'
 import StartRoom from './components/welcome/start-room'
-import IpfsRoom from './components/ipfs-room/ipfs-room'
+import IpfsRoom from './components/chat-room/chat-room'
 
 const { bind } = HyperHTMLElement
 const oneSecondTimeout = cb => window.setTimeout(() => cb(), 1000)
@@ -25,7 +25,7 @@ function main(ctx, next) {
 function joinRoom(ctx) {
   ctx.state.room = ctx.params.name || 'cat videos'
   appShell.firstElementChild.classList.add('fadeOut')
-  oneSecondTimeout(() => bind(appShell)`<ipfs-room name="${ctx.state.room}"></ipfs-room>`)
+  oneSecondTimeout(() => bind(appShell)`<chat-room name="${ctx.state.room}"></chat-room>`)
 }
 
 function ipfsNodeCheck(ctx, next) {
