@@ -1,6 +1,6 @@
 {
   "name": "distributed-chat",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "a realtime-only, transparent, ephemeral, private, p2p chat client and IPFS file uploader",
   "dependencies": {
     "blob-to-buffer": "^1.2.7",
@@ -8,8 +8,8 @@
     "ipfs-pubsub-room": "^1.4.0"
   },
   "devDependencies": {
-    "webpack": "^4.21.0",
     "npm-run-all": "^4.1.2",
+    "webpack": "^4.21.0",
     "webpack-cli": "^3.1.2"
   },
   "scripts": {
