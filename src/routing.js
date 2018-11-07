@@ -13,7 +13,7 @@ page('/room', joinRoom)
 page('/room/:name', joinRoom)
 page('/user', '/')
 page('*', '/')
-page()
+page({})
 
 function main(ctx, next) {
   // fadeout main contents
