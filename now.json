@@ -1,0 +1,21 @@
+{
+  "name": "distributed-chat",
+  "type": "static",
+  "files": [
+    "public"
+  ],
+  "static": {
+    "public": "public",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "alias": [
+    "distributed",
+    "dc",
+    "dchat"
+  ]
+}
