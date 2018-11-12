@@ -1,3 +1,5 @@
+import { serveToast } from './serveToast'
+
 const Room = require('ipfs-pubsub-room')
 
 const { wire } = HyperHTMLElement
@@ -18,9 +20,10 @@ export const bootstrapRoom = function bootstrapRoom({ element, ipfsNode = window
   })
 
   room.on('message', function message(rawMessage) {
-    const stringified = JSON.stringify(rawMessage)
-    const messageEl = wire(message)`<text-message rawMessage=${stringified}></text-message>`
+    const strRawMessage = JSON.stringify(rawMessage)
+    const messageEl = wire()`<text-message rawMessage=${strRawMessage}></text-message>`
     const backboneEl = document.getElementById('messageBackbone')
+
     attachMessageToBackbone(messageEl, backboneEl)
 
     function attachMessageToBackbone(msg, bb) {
@@ -29,7 +32,6 @@ export const bootstrapRoom = function bootstrapRoom({ element, ipfsNode = window
       bb.scrollTop = bb.scrollHeight
     }
   })
-  // ** end room bootstrap **
 
   return room
 }

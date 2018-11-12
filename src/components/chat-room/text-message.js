@@ -46,7 +46,7 @@ class TextMessage extends HyperHTMLElement {
       <div class=${container}>
         <div class=${content}
               data-call=copyText
-              onClick=${this}>${this.content}</div>
+              onClick=${this}>${this.content.message}</div>
         <div class=${spacingDottedLine}></div>
         <div class=${from}>from: ${this.from},</div>
         <div class=${timestamp}>${this.timestamp}</div>
