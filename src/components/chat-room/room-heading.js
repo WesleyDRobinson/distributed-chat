@@ -1,4 +1,4 @@
-import { getPeerCount, getPeers, getRoomName, leaveRoom, getIpfsNode } from './ipfsFunctions'
+import { getPeerCount, getPeers, getRoomName, leaveRoom, getIpfsNode } from './helpers/ipfsFunctions'
 import { serveToast } from './helpers'
 
 class RoomHeading extends HyperHTMLElement {

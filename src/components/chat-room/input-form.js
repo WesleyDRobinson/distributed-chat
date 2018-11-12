@@ -1,5 +1,5 @@
-import { addFile, broadcastMessage } from './ipfsFunctions'
-import { prepareFilesForUpload, logError } from './helpers'
+import { addFile, broadcastMessage } from './helpers/ipfsFunctions'
+import { prepareFilesForUpload } from './helpers'
 
 class InputForm extends HyperHTMLElement {
   render() {
@@ -48,18 +48,25 @@ class InputForm extends HyperHTMLElement {
         filesArray.forEach(async function handleImage(filePackage) {
           const [entry] = await addFile(filePackage)
           const gatewayUrl = new URL(`https://ipfs.io/ipfs/${entry.hash}/${filePackage.name}`).href
-          await broadcastMessage({ type: 'image', src: gatewayUrl, localSrc: entry })
+          const payload = {
+            type: 'image',
+            src: gatewayUrl,
+            localSrc: entry,
+            message: `${msg}`,
+          }
+          await broadcastMessage(payload)
         })
       } catch (e) {
-        logError('could not broadcast image', e)
+        console.error('could not broadcast image', e)
       }
     }
 
     if (msg) {
       try {
-        await broadcastMessage({ type: 'text', message: `${msg}` })
+        const payload = { type: 'text', message: `${msg}` }
+        await broadcastMessage(payload)
       } catch (e) {
-        logError('could not broadcast text', e)
+        console.error('could not broadcast text', e)
       }
     }
 

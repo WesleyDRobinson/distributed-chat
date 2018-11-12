@@ -1,4 +1,4 @@
-import { addFile, broadcastMessage } from "../components/chat-room/ipfsFunctions";
+import { addFile, broadcastMessage } from "./ipfsFunctions";
 
 export const handleImage = async function handleImage(filePackage) {
   const [entry] = await addFile(filePackage)
