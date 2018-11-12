@@ -1,4 +1,4 @@
-const { buildContent } = require('./helpers')
+const { buildContent } = require('./buildContent')
 
 const getRoom = async function getRoom() {
   const { room } = document.querySelector('chat-room')
@@ -7,13 +7,25 @@ const getRoom = async function getRoom() {
 const addFile = async function addFile(filePackage) {
   return window.ipfsNode.files.add(filePackage)
 }
-const broadcastMessage = async function broadcastMessage({ type, ...rest }) {
-  debugger
-  const content = await buildContent[type](rest)
-  debugger
+const broadcastMessage = async function broadcastMessage(message) {
   const room = await getRoom()
-  debugger
-  return room.broadcast(content)
+  try {
+    // const { type } = message
+    // // build a text-message or image-preview custom element
+    // const content = await buildContent[type](message)
+    // const strContent = JSON.stringify(content)
+
+    // .broadcast() emits the 'message' event, listened for in bootstrapRoom.js
+    switch (typeof message) {
+      case 'object':
+        return room.broadcast(JSON.stringify(message))
+      case 'string':
+      default:
+        return room.broadcast(message)
+    }
+  } catch (e) {
+    console.error(e)
+  }
 }
 const getRoomName = async function getRoomName() {
   const room = await getRoom()
