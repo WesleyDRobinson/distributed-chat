@@ -47,12 +47,13 @@ class InputForm extends HyperHTMLElement {
         const filesArray = await prepareFilesForUpload(form)
         filesArray.forEach(async function handleImage(filePackage) {
           const [entry] = await addFile(filePackage)
-          const gatewayUrl = new URL(`https://ipfs.io/ipfs/${entry.hash}/${filePackage.name}`).href
+          const path = `/${entry.hash}/${filePackage.name}`
+          const gatewayUrl = new URL(`https://ipfs.io/ipfs${path}`).href
           const payload = {
             type: 'image',
             src: gatewayUrl,
-            localSrc: entry,
             message: `${msg}`,
+            path,
           }
           await broadcastMessage(payload)
         })
