@@ -2,9 +2,22 @@ const getRoom = async function getRoom() {
   const { room } = document.querySelector('chat-room')
   return room ? room : {}
 }
+
+/*
+*
+* filePackage should be an array, [], of objects,
+* {
+*   path: '/tmp/myfile.txt', // The file path
+*   content: <data> // A Buffer, Readable Stream or Pull Stream with the contents of the file
+* }
+* https://github.com/ipfs/interface-ipfs-core/blob/master/SPEC/FILES.md#add
+*
+* */
 const addFile = async function addFile(filePackage) {
   return window.ipfsNode.files.add(filePackage)
 }
+
+// activates room.on('message') listeners
 const broadcastMessage = async function broadcastMessage(message) {
   const room = await getRoom()
   try {

@@ -10,7 +10,6 @@ class PhotoMessage extends HyperHTMLElement {
   render() {
     const image = 'db w-100'
     const link = 'link black-60 hover-gold'
-    debugger
     this.html`
 <img class=${image} src=${this.src} alt="user uploaded content">
 <a class=${link} href=${this.src}>${this.src}</a>

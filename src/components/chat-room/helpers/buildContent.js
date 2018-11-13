@@ -8,7 +8,6 @@ export const buildContent = {
     })
   },
   text: async function buildText(message) {
-    debugger
     return JSON.stringify({
       element: wire(message)`<text-message rawMessage=${message}></text-message>`,
       ...message

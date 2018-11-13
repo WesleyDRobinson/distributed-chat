@@ -1,4 +1,6 @@
 import { serveToast } from './serveToast'
+import { utf8ArrayToStr } from './utf8ArrayToStr'
+import PhotoMessage from '../photo-message'
 
 const Room = require('ipfs-pubsub-room')
 
@@ -21,10 +23,17 @@ export const bootstrapRoom = function bootstrapRoom({ element, ipfsNode = window
 
   room.on('message', function message(rawMessage) {
     const strRawMessage = JSON.stringify(rawMessage)
-    const messageEl = wire()`<text-message rawMessage=${strRawMessage}></text-message>`
     const backboneEl = document.getElementById('messageBackbone')
+    const content = JSON.parse(utf8ArrayToStr(rawMessage.data)) // wacky data structure and encoding shit
 
-    attachMessageToBackbone(messageEl, backboneEl)
+    if (content.type === 'text') {
+      const messageEl = wire()`<text-message rawMessage=${strRawMessage}></text-message>`
+      attachMessageToBackbone(messageEl, backboneEl)
+    } else if (content.type === 'image') {
+      const src = `/ipfs${content.path}`
+      const photoEl = wire()`<photo-message src=${content.src}></photo-message>`
+      attachMessageToBackbone(photoEl, backboneEl)
+    }
 
     function attachMessageToBackbone(msg, bb) {
       bb.classList.add('bl', 'bw1', 'b--light-blue')

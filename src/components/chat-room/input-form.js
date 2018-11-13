@@ -1,5 +1,5 @@
-import { addFile, broadcastMessage } from './helpers/ipfsFunctions'
-import { prepareFilesForUpload } from './helpers'
+import { broadcastMessage } from './helpers/ipfsFunctions'
+import { handleImage, prepareFilesForUpload } from './helpers'
 
 class InputForm extends HyperHTMLElement {
   render() {
@@ -42,21 +42,13 @@ class InputForm extends HyperHTMLElement {
     sendButton.blur()
 
     if (file && file.type.startsWith('image/')) {
-      // try to upload the file to IPFS and broadcast a preview
+      // upload the file to IPFS and broadcast a preview
       try {
-        const filesArray = await prepareFilesForUpload(form)
-        filesArray.forEach(async function handleImage(filePackage) {
-          const [entry] = await addFile(filePackage)
-          const path = `/${entry.hash}/${filePackage.name}`
-          const gatewayUrl = new URL(`https://ipfs.io/ipfs${path}`).href
-          const payload = {
-            type: 'image',
-            src: gatewayUrl,
-            message: `${msg}`,
-            path,
-          }
-          await broadcastMessage(payload)
-        })
+        // shape a single image for ipfs uploading
+        const preparedImage = await prepareFilesForUpload(form)
+        // handleImage includes a broadcast
+        const imageRes = await handleImage(preparedImage)
+        console.log('image uploaded successfully \n', preparedImage, imageRes)
       } catch (e) {
         console.error('could not broadcast image', e)
       }
@@ -64,8 +56,9 @@ class InputForm extends HyperHTMLElement {
 
     if (msg) {
       try {
-        const payload = { type: 'text', message: `${msg}` }
-        await broadcastMessage(payload)
+        const preparedText = { type: 'text', message: `${msg}` }
+        const broadcastRes = await broadcastMessage(preparedText)
+        console.log('text broadcast', preparedText, broadcastRes)
       } catch (e) {
         console.error('could not broadcast text', e)
       }
