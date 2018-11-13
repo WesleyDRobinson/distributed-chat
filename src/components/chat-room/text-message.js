@@ -1,7 +1,8 @@
 import {
   serveToast,
   utf8ArrayToStr,
-  copyTextToClipboard
+  copyTextToClipboard,
+  trim,
 } from './helpers'
 
 class TextMessage extends HyperHTMLElement {
@@ -12,25 +13,9 @@ class TextMessage extends HyperHTMLElement {
   created() {
     this.message = JSON.parse(this.rawMessage)
     this.from = this.message.from.slice(41) // .slice(41) is current hacky id system
-    this.content = utf8ArrayToStr(this.message.data.data) // wacky data structure and encoding shit
+    const content = utf8ArrayToStr(this.message.data.data) // wacky data structure and encoding shit
+    this.text = JSON.parse(content).message
     this.timestamp = trim(new Date().toTimeString())
-
-    function trim(time) {
-      // grep timezone from timestring, including parens,
-      // capture group 1 is timezone without parens
-      const re = /\(([^)]+)\)/i
-      const matchGroups = time.match(re);
-      const timezone = matchGroups[1];
-      let abbr = timezone
-      // if timezone contains word-boundary letters, abbreviate it
-      if (timezone.search(/\W/) >= 0) {
-        abbr = timezone
-          .match(/\b\w/g)
-          .join("")
-          .toUpperCase()
-      }
-      return time.replace(re, `(${abbr})`)
-    }
 
     this.render()
   }
@@ -46,7 +31,7 @@ class TextMessage extends HyperHTMLElement {
       <div class=${container}>
         <div class=${content}
               data-call=copyText
-              onClick=${this}>${this.content}</div>
+              onClick=${this}>${this.text}</div>
         <div class=${spacingDottedLine}></div>
         <div class=${from}>from: ${this.from},</div>
         <div class=${timestamp}>${this.timestamp}</div>
