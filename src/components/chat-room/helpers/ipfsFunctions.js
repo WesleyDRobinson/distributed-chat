@@ -14,7 +14,7 @@ const getRoom = async function getRoom() {
 *
 * */
 const addFile = async function addFile(filePackage) {
-  return window.ipfsNode.files.add(filePackage)
+  return window.ipfsNode.add(filePackage)
 }
 
 // activates room.on('message') listeners
