@@ -1,0 +1,15 @@
+.placeholder-gold:placeholder-shown {
+  color: #ffb700;
+}
+.placeholder-gold::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+  color: #ffb700;
+}
+.placeholder-gold::-moz-placeholder { /* Firefox 19+ */
+  color: #ffb700;
+}
+.placeholder-gold:-ms-input-placeholder { /* IE 10+ */
+  color: #ffb700;
+}
+.placeholder-gold:-moz-placeholder { /* Firefox 18- */
+  color: #ffb700;
+}

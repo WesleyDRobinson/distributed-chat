@@ -7,7 +7,7 @@ class InputForm extends HyperHTMLElement {
     const goldBorderBottom = 'ba b--gold bl-0 bt-0 br-0'
 
     const form = `mw9 ${goldBorderBottom} flex justify-around items-baseline`
-    const textInput = `input-reset pl3 bg-transparent outline-transparent lh-copy o-80 ${goldBorderBottom} f4 flex-grow-1`
+    const textInput = `input-reset placeholder-gold pl3 bg-transparent outline-transparent lh-copy o-80 ${goldBorderBottom} f4 flex-grow-1`
     const fileLabel = `${formButton} mr1`
     const submit = `${formButton} purple fw9`
 
@@ -16,7 +16,8 @@ class InputForm extends HyperHTMLElement {
         <div class=${form}>
           <label for="message-entry" id="message-desc" class="clip">broadcast a message to the room</label>
           <input id="message-entry" class=${textInput} type="textarea" autoComplete="off"
-                 aria-describedby="message-desc" style="caret-color: #ffb700">
+                 aria-describedby="message-desc" style="caret-color: #ffb700" 
+                 placeholder="broadcast a message to the room">
       
           <label id="file-attachment-desc" class="clip">share an image with the room</label>
           <label for="file-attachment" class=${fileLabel}>📷</label>
