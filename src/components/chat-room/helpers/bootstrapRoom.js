@@ -1,6 +1,6 @@
 import { serveToast } from './serveToast'
 import { utf8ArrayToStr } from './utf8ArrayToStr'
-import PhotoMessage from '../photo-message'
+import '../photo-message'
 
 const Room = require('ipfs-pubsub-room')
 

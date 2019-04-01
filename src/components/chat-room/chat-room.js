@@ -1,7 +1,7 @@
-import TextMessage from './text-message'
-import ToastAnnounce from '../toast-announce'
-import RoomHeading from './room-heading'
-import InputForm from './input-form'
+import './text-message'
+import '../toast-announce'
+import './room-heading'
+import './input-form'
 
 import { serveToast, bootstrapRoom } from './helpers'
 

@@ -1,6 +1,6 @@
-import WelcomeHeading from './welcome-heading'
-import CreateRoomForm from './create-room-form'
-import FeaturedRooms from './featured-rooms'
+import './welcome-heading'
+import './create-room-form'
+import './featured-rooms'
 
 class StartRoom extends HyperHTMLElement {
   created() {

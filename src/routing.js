@@ -1,7 +1,7 @@
 import createIpfsNode from './createNode'
-import LoadingConnector from './components/loading-connector'
-import StartRoom from './components/welcome/start-room'
-import IpfsRoom from './components/chat-room/chat-room'
+import './components/loading-connector'
+import './components/welcome/start-room'
+import './components/chat-room/chat-room'
 
 const { bind } = HyperHTMLElement
 const oneSecondTimeout = cb => window.setTimeout(() => cb(), 1000)
